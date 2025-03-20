@@ -38,6 +38,32 @@ public class Board {
                 anyMatch(s -> nonNull(s.getActual()) && s.getActual().equals(s.getExpected()));
     }
 
-    //18:05
+    public boolean changeValue(final int col, final int row, final Integer value){
+        //lista externa colunas e  interna as linhas
+        var spaces = space.get(col).get(row);
+        if (spaces.isFixed())
+            return false;
+
+        spaces.setActual(value);
+        return true;
+    }
+
+    public boolean clearValue(final int col, final int row){
+        var spaces = space.get(col).get(row);
+        if (spaces.isFixed())
+            return false;
+
+        spaces.clearSpace();
+        return true;
+    }
+
+    public void reset(){
+        //s -> s.clearSpace
+        space.forEach(c -> c.forEach(Space::clearSpace));
+    }
+
+    public boolean gameIsFinished(){
+        return !hasErrors() && getStatus().equals(COMPLETE);
+    }
 
 }
